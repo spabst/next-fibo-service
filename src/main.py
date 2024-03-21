@@ -1,28 +1,29 @@
-from flask import Flask, request, jsonify
+from flask import Flask, jsonify, request, Response
 from typing_extensions import Annotated
 import msgpack
+import math
 from functools import lru_cache
 from pydantic import validate_call, Field, ValidationError
 import warnings
 app = Flask(__name__)
 
-import math
- 
+
 # A utility function that returns true if x is perfect square
 def is_perfect_square(x):
     s = int(math.sqrt(x))
     return s*s == x
- 
+
+
 # Returns true if n is a Fibonacci Number, else false
 def is_fibonacci(n):
     return is_perfect_square(5*n*n + 4) or is_perfect_square(5*n*n - 4)
+
 
 @lru_cache(maxsize=None)
 @validate_call
 def fibonacci(n: Annotated[int, Field(gt=0)]):
     if not is_fibonacci(n):
         warnings.warn(f'The provided number is not part of the fibonacci sequence. The code is providing the next number is the fibonacci sequence greater than {n}', Warning)
-        #    raise ValueError("The provided number is not part of the fibonacci sequence. The code is providing the next number is the fibonacci sequence greater than the input value")
     number1 = 1
     number2 = 1
     next_fibo = number1 + number2
@@ -61,7 +62,9 @@ def next_fibonacci():
     if content_type == 'application/json':
         return jsonify(output_data)
     elif content_type == 'application/msgpack':
-        return msgpack.packb(output_data, use_bin_type=True)
+        packed_data = msgpack.packb(output_data, use_bin_type=True)
+        return Response(packed_data, content_type='application/msgpack')
+
 
 if __name__ == '__main__':
     app.run(debug=True, port=5200)
