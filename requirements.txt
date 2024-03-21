@@ -1,2 +1,5 @@
 flask
 msgpack
+Flask-Testing
+requests
+pydantic
