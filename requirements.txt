@@ -3,3 +3,5 @@ msgpack
 Flask-Testing
 requests
 pydantic
+pytest-cov 
+coverage-badge 
