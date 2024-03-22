@@ -10,7 +10,7 @@ The Fibonacci Service is a simple HTTP service written in Python that provides a
 - Supports both JSON and MessagePack formats for input and output.
 - Utilizes `@lru_cache` for caching Fibonacci numbers to improve performance.
 
-## Assumptions
+## Assumptions
 According to Wikipedia, the fibonacci sequence usually starts with 0 and 1, but Fibonacci himself was starting the sequence with 1 and 2. In the current code, we raise an error for an input value of 0 to honor autor of the sequence.
 When the number provided doesn't match a fibonacci number, the code raises a warning, but still provide the closest upper fibonacci number.
 The code accept both JSON and MessagePack. When you send the message in a specific content-type, you get a response with the same content-type.
